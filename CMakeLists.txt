@@ -34,6 +34,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/calibration
 )
 
+
 # ==========================
 # 海康 SDK 配置
 # ==========================
@@ -45,23 +46,11 @@ else()
     set(HIK_LIB_DIR "${HIK_SDK_PATH}/32")
 endif()
 
-if(EXISTS ${HIK_LIB_DIR})
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/calibration/include)
-    # 使用 find_library 找到动态库
-    find_library(HIK_CAMERA_LIB
-        NAMES MvCameraControl
-        PATHS ${HIK_LIB_DIR}
-        NO_DEFAULT_PATH
-    )
+message(${HIK_LIB_DIR})
 
-    if(NOT HIK_CAMERA_LIB)
-        message(FATAL_ERROR "Cannot find MvCameraControl library in ${HIK_LIB_DIR}")
-    else()
-        message(STATUS "Found HIK SDK library: ${HIK_CAMERA_LIB}")
-    endif()
-else()
-    message(FATAL_ERROR "HIK SDK directory not found at ${HIK_LIB_DIR}")
-endif()
+link_directories(
+${HIK_LIB_DIR}
+)
 
 # ==========================
 # 源文件与头文件
@@ -94,7 +83,19 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         ${OpenCV_LIBS}
-        ${HIK_CAMERA_LIB}
+        MvCameraControl
+        MVGigEVisionSDK
+        FormatConversion
+        GCBase_gcc421_v3_0
+        GenApi_gcc421_v3_0
+        log4cpp_gcc421_v3_0
+        Log_gcc421_v3_0
+        MathParser_gcc421_v3_0
+        MediaProcess
+        MVRender
+        MvUsb3vTL
+        NodeMapData_gcc421_v3_0
+        XmlParser_gcc421_v3_0
         openvino::runtime
         Threads::Threads
         ${X11_LIBRARIES}
@@ -122,6 +123,5 @@ install(DIRECTORY configs/
 message(STATUS "OpenCV version: ${OpenCV_VERSION}")
 message(STATUS "OpenCV include dirs: ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "OpenCV libraries: ${OpenCV_LIBS}")
-message(STATUS "HIK SDK path: ${HIK_LIB_DIR}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
