@@ -1,4 +1,4 @@
-#include "calibrate_parameter.hpp"
+#include "calibrate_parameter_gkd.hpp"
 
 int yaml_write(const std::string& filepath, const parameter_loader_t& params);
 int yaml_load(const std::string& filepath, parameter_loader_t& params);
@@ -27,15 +27,10 @@ int yaml_write(const std::string& filepath, const parameter_loader_t& params) {
     /*标定参数*/
     fs << "boardSize_h" << params.boardSize_h;
     fs << "boardSize_w" << params.boardSize_w;
-    fs << ·     ·   ·"squareSize" << params.squareSize;
+    fs << "squareSize" << params.squareSize;
     fs << "img_count" << params.img_count;
     fs << "sample_period" << params.sample_period;
     fs << "calib_yaml_path" << params.calib_yaml_path;
-
-    /*相机参数*/
-    fs << "cam_gain" << params.cam_gain;
-    fs << "cam_exptime" << params.cam_exptime;
-    fs << "framerate" << params.framerate;
 
     fs.release();
     std::cout << "参数已保存到 " << filepath << std::endl;
@@ -59,10 +54,6 @@ int yaml_load(const std::string& filepath, parameter_loader_t& params) {
     fs["sample_period"] >> params.sample_period;
     fs["calib_yaml_path"] >> params.calib_yaml_path;
 
-    /*相机参数*/
-    fs["cam_gain"] >> params.cam_gain;
-    fs["cam_exptime"] >> params.cam_exptime;
-    fs["framerate"] >> params.framerate;
     fs.release();
     std::cout << "参数已从 " << filepath << " 加载" << std::endl;
     return 0;
