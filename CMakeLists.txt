@@ -31,6 +31,7 @@ find_package(nlohmann_json REQUIRED)
 include_directories(
     ${OpenCV_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/calibration/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/calibration/lib/include
     ${CMAKE_CURRENT_SOURCE_DIR}/calibration
 )
 
@@ -46,10 +47,21 @@ else()
 endif()
 
 if(EXISTS ${HIK_LIB_DIR})
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/calibration/include)
-    # 使用 find_library 找到动态库
+    # 查找海康威视相关库
     find_library(HIK_CAMERA_LIB
         NAMES MvCameraControl
+        PATHS ${HIK_LIB_DIR}
+        NO_DEFAULT_PATH
+    )
+    
+    find_library(HIK_GIGE_LIB
+        NAMES MVGigEVisionSDK
+        PATHS ${HIK_LIB_DIR}
+        NO_DEFAULT_PATH
+    )
+    
+    find_library(HIK_USB3_LIB
+        NAMES MvUsb3vTL
         PATHS ${HIK_LIB_DIR}
         NO_DEFAULT_PATH
     )
@@ -58,7 +70,14 @@ if(EXISTS ${HIK_LIB_DIR})
         message(FATAL_ERROR "Cannot find MvCameraControl library in ${HIK_LIB_DIR}")
     else()
         message(STATUS "Found HIK SDK library: ${HIK_CAMERA_LIB}")
+        if(HIK_GIGE_LIB)
+            message(STATUS "Found HIK GigE library: ${HIK_GIGE_LIB}")
+        endif()
+        if(HIK_USB3_LIB)
+            message(STATUS "Found HIK USB3 library: ${HIK_USB3_LIB}")
+        endif()
     endif()
+    
 else()
     message(FATAL_ERROR "HIK SDK directory not found at ${HIK_LIB_DIR}")
 endif()
@@ -88,13 +107,28 @@ set(HEADERS
 # ==========================
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# 设置运行时库路径
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    BUILD_RPATH "${HIK_LIB_DIR}"
+    INSTALL_RPATH "${HIK_LIB_DIR}"
+)
+
 # ==========================
 # 链接库
 # ==========================
+# 准备海康威视库列表
+set(HIK_LIBRARIES ${HIK_CAMERA_LIB})
+if(HIK_GIGE_LIB)
+    list(APPEND HIK_LIBRARIES ${HIK_GIGE_LIB})
+endif()
+if(HIK_USB3_LIB)
+    list(APPEND HIK_LIBRARIES ${HIK_USB3_LIB})
+endif()
+
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         ${OpenCV_LIBS}
-        ${HIK_CAMERA_LIB}
+        ${HIK_LIBRARIES}
         openvino::runtime
         Threads::Threads
         ${X11_LIBRARIES}
