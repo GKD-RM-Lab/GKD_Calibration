@@ -14,7 +14,7 @@ int para_load(std::string filepath)
     // return 0;
     yaml_load(filepath, params);
     // std::cout << params.armor_small_h << std::endl;
-
+    return 0;
 }
 
 // 保存参数到 YAML 文件
@@ -57,7 +57,7 @@ int yaml_load(const std::string& filepath, parameter_loader_t& params) {
     fs["img_count"] >> params.img_count;
     fs["sample_period"] >> params.sample_period;
     fs["calib_yaml_path"] >> params.calib_yaml_path;
-
+    fs["rect_cut"] >> params.rect_cut;
     fs["cam_gain"] >> params.cam_gain;
     fs["cam_exptime"] >> params.cam_exptime;
     fs["framerate"] >> params.framerate;

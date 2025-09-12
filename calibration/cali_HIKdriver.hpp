@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h> 
-#include "include/MvCameraControl.h"
+#include "libs/MvCameraControl.h"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
