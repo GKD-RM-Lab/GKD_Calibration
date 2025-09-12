@@ -9,7 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 // cam_driver
-#include "cali_HIKdriver
+#include "cali_HIKdriver.hpp"
 
 typedef struct
 {

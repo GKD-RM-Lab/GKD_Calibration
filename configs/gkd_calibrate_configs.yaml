@@ -1,6 +1,6 @@
 %YAML:1.0
 ---
-
+rect_cut: 1
 # 标定部分
 
 boardSize_h: 7 # 棋盘参数
@@ -8,4 +8,9 @@ boardSize_w: 9
 squareSize: 1.5 
 img_count: 60 # 六十张图片
 sample_period: 20 # 20 帧每张图片
-calib_yaml_path: "../config/camera_paramets.yaml" # 相机内·
+calib_yaml_path: "../config/gkd_camera_paramets.yaml" # 相机内参
+
+cam_gain: 15.2
+cam_exptime: 12000
+
+framerate: 120 # 帧率

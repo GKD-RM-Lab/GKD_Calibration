@@ -31,6 +31,10 @@ int yaml_write(const std::string& filepath, const parameter_loader_t& params) {
     fs << "img_count" << params.img_count;
     fs << "sample_period" << params.sample_period;
     fs << "calib_yaml_path" << params.calib_yaml_path;
+    fs << "rect_cut" << params.rect_cut;
+    fs << "cam_gain"         << params.cam_gain;
+    fs << "cam_exptime"      << params.cam_exptime;
+    fs << "framerate"        << params.framerate;
 
     fs.release();
     std::cout << "参数已保存到 " << filepath << std::endl;
@@ -53,6 +57,10 @@ int yaml_load(const std::string& filepath, parameter_loader_t& params) {
     fs["img_count"] >> params.img_count;
     fs["sample_period"] >> params.sample_period;
     fs["calib_yaml_path"] >> params.calib_yaml_path;
+
+    fs["cam_gain"] >> params.cam_gain;
+    fs["cam_exptime"] >> params.cam_exptime;
+    fs["framerate"] >> params.framerate;
 
     fs.release();
     std::cout << "参数已从 " << filepath << " 加载" << std::endl;
