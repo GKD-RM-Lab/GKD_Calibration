@@ -87,6 +87,10 @@ target_link_libraries(${PROJECT_NAME}
     pthread
 )
 
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+
 # 安装规则
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION bin
