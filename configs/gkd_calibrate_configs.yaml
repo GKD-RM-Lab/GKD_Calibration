@@ -1,0 +1,11 @@
+%YAML:1.0
+---
+
+# 标定部分
+
+boardSize_h: 7 # 棋盘参数
+boardSize_w: 9
+squareSize: 1.5 
+img_count: 60 # 六十张图片
+sample_period: 20 # 20 帧每张图片
+calib_yaml_path: "../config/camera_paramets.yaml" # 相机内·

@@ -1,0 +1,8 @@
+%YAML:1.0
+---
+
+model_path_xml: "../RMvision_forward_gpu/models/RMyolov7-best-fp32/rmyolo-v7-best.xml"
+model_path_bin: "../RMvision_forward_gpu/models/RMyolov7-best-fp32/rmyolo-v7-best.bin"
+
+conf_threshold: 0.55 # 置信度阈值
+rect_cut: 1 # 剪裁图片
