@@ -33,16 +33,27 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/calibration
 )
 
-# 海康威视SDK库路径 (需要根据实际安装路径调整)
-set(HIK_SDK_PATH "/opt/MVS" CACHE PATH "HIK SDK installation path")
-if(EXISTS ${HIK_SDK_PATH})
-    include_directories(${HIK_SDK_PATH}/include)
-    link_directories(${HIK_SDK_PATH}/lib/64)
+# 海康威视SDK库路径
+set(HIK_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/calibration/lib" CACHE PATH "HIK SDK installation path")
+
+# 根据系统架构选择库目录
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    # 64位系统
+    set(HIK_LIB_DIR "${HIK_SDK_PATH}/64")
+else()
+    # 32位系统
+    set(HIK_LIB_DIR "${HIK_SDK_PATH}/32")
+endif()
+
+# 检查库目录是否存在
+if(EXISTS ${HIK_LIB_DIR})
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/calibration/include)
+    link_directories(${HIK_LIB_DIR})
     set(HIK_LIBRARIES MvCameraControl)
 else()
-    message(WARNING "HIK SDK not found at ${HIK_SDK_PATH}. Please set HIK_SDK_PATH to correct path.")
-    set(HIK_LIBRARIES "")
+    message(FATAL_ERROR "HIK SDK library directory not found at ${HIK_LIB_DIR}")
 endif()
+
 
 # 源文件
 set(SOURCES
@@ -57,10 +68,10 @@ set(HEADERS
     calibration/calibrate_gkd.hpp
     calibration/calibrate_parameter_gkd.hpp
     calibration/cali_HIKdriver.hpp
-    calibration/include/CameraParams.h
-    calibration/include/MvCameraControl.h
-    calibration/include/MvErrorDefine.h
-    calibration/include/PixelType.h
+    calibration/lib/include/CameraParams.h
+    calibration/lib/include/MvCameraControl.h
+    calibration/lib/include/MvErrorDefine.h
+    calibration/lib/include/PixelType.h
 )
 
 # 创建可执行文件
