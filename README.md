@@ -17,13 +17,13 @@
 
 ## 依赖项
 
-OpenCV
-海康威视SDK (MVS)
-OpenVINO
-X11
-nlohmann_json
-CMake (>= 3.16)
-支持C++17的编译器
+- OpenCV
+- 海康威视SDK (MVS)
+- OpenVINO
+- X11
+- nlohmann_json
+- CMake (>= 3.16)
+- 支持C++17的编译器
 
 ## 构建项目
 
