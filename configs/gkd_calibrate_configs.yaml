@@ -8,7 +8,7 @@ boardSize_w: 9
 squareSize: 1.5 
 img_count: 60 # 六十张图片
 sample_period: 20 # 20 帧每张图片
-calib_yaml_path: "../config/gkd_camera_paramets.yaml" # 相机内参
+calib_yaml_path: "configs/gkd_camera_paramets.yaml" # 相机内参
 
 cam_gain: 15.2
 cam_exptime: 12000

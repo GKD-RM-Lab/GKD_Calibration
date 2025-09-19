@@ -13,7 +13,7 @@
 
 int main(int argc, char** argv) {
     
-    para_load("../configs/gkd_calibrate_configs.yaml");
+    para_load("configs/gkd_calibrate_configs.yaml");
 
     std::thread cameraThread(HIKcamtask);
     cv::Mat inputImage;
